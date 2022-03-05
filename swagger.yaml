@@ -1,0 +1,386 @@
+swagger: '2.0'
+info:
+  description: API to manage customer data for a small shop
+  version: 1.0.0
+  title: The CRM Service
+
+tags:
+- name: users
+  description: Operations available to regular users
+- name: admins
+  description: Secured Admin-only calls
+paths:
+  /v1/customers:
+    get:
+      tags:
+      - users
+      summary: retrieves all customers
+      operationId: getCustomers
+      description: |
+        By passing in the appropriate options, you can retrieve every available customer in the system
+      produces:
+      - application/json
+      parameters:
+      - in: query
+        name: skip
+        description: number of records to skip for pagination
+        type: integer
+        format: int32
+        minimum: 0
+      - in: query
+        name: limit
+        description: maximum number of records to return
+        type: integer
+        format: int32
+        minimum: 0
+        maximum: 50
+      responses:
+        200:
+          description: search results matching criteria
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Customer'
+        400:
+          description: bad request
+        404:
+          description: nothing found
+        500:
+          description: something went wrong
+    post:
+      tags:
+      - users
+      summary: creates a customer
+      operationId: postCustomer
+      description: Adds an customer to the system
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: customer
+        description: Customer to add
+        schema:
+          allOf:
+          - $ref: '#/definitions/Customer'
+          - required:
+            - id
+            - name
+            - surname
+          - type: object
+            properties:
+              photo: 
+                $ref: '#/definitions/Photo'
+      responses:
+        200:
+          description: customer created
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        400:
+          description: bad request
+        409:
+          description: an existing customer already exists
+        500:
+          description: something went wrong
+  /v1/customers/{id}:
+    get:
+      tags:
+      - users
+      summary: retrieves a customer
+      operationId: getCustomer
+      description: |
+        By passing in the appropriate option, you can retrieve the desired customer from the system
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        name: id
+        description: customer identification
+        type: string
+        required: true
+      responses:
+        200:
+          description: search result matching criteria
+          schema:
+              $ref: '#/definitions/Customer'
+        400:
+          description: bad request
+        404:
+          description: nothing found
+        500:
+          description: something went wrong
+    put:
+      tags:
+      - users
+      summary: updates a customer
+      operationId: putCustomer
+      description: Updates an customer on the system
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        name: id
+        description: customer identification
+        type: string
+        required: true
+      - in: body
+        name: customer
+        description: Customer to update
+        schema:
+          allOf:
+          - $ref: '#/definitions/Customer'
+          - required:
+            - id
+          - type: object
+            properties:
+              photo: 
+                $ref: '#/definitions/Photo'
+      responses:
+        200:
+          description: customer updated
+        400:
+          description: bad request
+        500:
+          description: something went wrong
+    delete:
+      tags:
+      - users
+      summary: deletes a customer
+      operationId: deleteCustomer
+      description: Deletes an customer on the system
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        name: id
+        description: customer identification
+        type: string
+        required: true
+      responses:
+        200:
+          description: customer deleted
+        400:
+          description: bad request
+        404:
+          description: nothing found
+        500:
+          description: something went wrong
+  /v1/users:
+    get:
+      tags:
+      - admins
+      summary: retrieves all users
+      operationId: getUsers
+      description: |
+        By passing in the appropriate options, you can retrieve every available user in the system
+      produces:
+      - application/json
+      parameters:
+      - in: query
+        name: skip
+        description: number of records to skip for pagination
+        type: integer
+        format: int32
+        minimum: 0
+      - in: query
+        name: limit
+        description: maximum number of records to return
+        type: integer
+        format: int32
+        minimum: 0
+        maximum: 50
+      responses:
+        200:
+          description: search results matching criteria
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+        400:
+          description: bad request
+        404:
+          description: nothing found
+        500:
+          description: something went wrong
+    post:
+      tags:
+      - admins
+      summary: creates an user
+      operationId: postUser
+      description: Adds an user to the system
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: user
+        description: User to add
+        schema:
+          allOf:
+          - $ref: '#/definitions/User'
+          - required:
+            - id
+            - name
+            - email
+      responses:
+        200:
+          description: user created
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        400:
+          description: bad request
+        409:
+          description: an existing customer already exists
+        500:
+          description: something went wrong
+  /v1/users/{id}:
+    get:
+      tags:
+      - admins
+      summary: retrieves an user
+      operationId: getUser
+      description: |
+        By passing in the appropriate option, you can retrieve the desired user from the system
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        name: id
+        description: user identification
+        type: string
+        required: true
+      responses:
+        200:
+          description: search result matching criteria
+          schema:
+              $ref: '#/definitions/User'
+        400:
+          description: bad request
+        404:
+          description: nothing found
+        500:
+          description: something went wrong
+    put:
+      tags:
+      - admins
+      summary: updates an user
+      operationId: putUser
+      description: Updates an user on the system
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        name: id
+        description: user identification
+        type: string
+        required: true
+      - in: body
+        name: user
+        description: User to update
+        schema:
+          allOf:
+          - $ref: '#/definitions/User'
+          - required:
+            - id
+      responses:
+        200:
+          description: user updated
+        400:
+          description: bad request
+        500:
+          description: something went wrong
+    delete:
+      tags:
+      - admins
+      summary: deletes an user
+      operationId: deleteUser
+      description: Deletes an user on the system
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        name: id
+        description: user identification
+        type: string
+        required: true
+      responses:
+        200:
+          description: user deleted
+        400:
+          description: bad request
+        404:
+          description: not found
+        500:
+          description: something went wrong
+definitions:
+  Customer:
+    type: object
+    properties:
+      id:
+        type: string
+        format: uuid
+        example: d290f1ee-6c54-4b01-90e6-d701748f0851
+      name:
+        type: string
+        example: Thiago
+      surname:
+        type: string
+        format: string
+        example: Pellegrin
+      photoUrl:
+        type: string
+        format: url
+        example: https://picsum.photos/200/300
+        readOnly: true
+  User:
+    properties:
+      id:
+        type: string
+        format: uuid
+        example: d290f1ee-6c54-4b01-90e6-d701748f0851
+      name:
+        type: string
+        example: Thiago
+      email:
+        type: string
+        format: email
+        example: thiago@email.com
+      admin:
+        type: boolean
+        example: true
+  Photo:
+    required:
+    - data
+    - mime
+    properties:
+      data:
+        type: string
+        example: data:image/png;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7
+      mime:
+        type: string
+        example:  image/png
+  ApiResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      type:
+        type: string
+      message:
+        type: string
+schemes:
+ - https
+# Added by API Auto Mocking Plugin
+host: virtserver.swaggerhub.com
+basePath: /tgpellegrin/CRM/1.0.0
