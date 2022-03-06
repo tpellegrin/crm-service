@@ -1,9 +1,13 @@
 {
   "compilerOptions": {
+    "resolveJsonModule": true,
     "baseUrl": ".",
     "paths": {
       "@functions/*": ["src/functions/*"],
-      "@libs/*": ["src/libs/*"]
+      "@libs/*": ["src/libs/*"],
+      "@common/*": ["src/common/*"],
+      "@test/*": ["test/*"],
+      "@mocks/*": ["__mocks__/*"]
     }
   }
 }
