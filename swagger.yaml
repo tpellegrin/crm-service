@@ -65,12 +65,11 @@ paths:
           allOf:
           - $ref: '#/definitions/Customer'
           - required:
-            - id
             - name
             - surname
           - type: object
             properties:
-              photo: 
+              photo:
                 $ref: '#/definitions/Photo'
       responses:
         200:
@@ -136,7 +135,7 @@ paths:
             - id
           - type: object
             properties:
-              photo: 
+              photo:
                 $ref: '#/definitions/Photo'
       responses:
         200:
@@ -225,8 +224,8 @@ paths:
           allOf:
           - $ref: '#/definitions/User'
           - required:
-            - id
             - name
+            - surname
             - email
       responses:
         200:
@@ -337,6 +336,10 @@ definitions:
         type: string
         format: string
         example: Pellegrin
+      email:
+        type: string
+        format: email
+        example: thiago@email.com
       photoUrl:
         type: string
         format: url
@@ -351,6 +354,10 @@ definitions:
       name:
         type: string
         example: Thiago
+      surname:
+        type: string
+        format: string
+        example: Pellegrin
       email:
         type: string
         format: email
@@ -372,12 +379,10 @@ definitions:
   ApiResponse:
     type: object
     properties:
-      code:
+      statusCode:
         type: integer
         format: int32
-      type:
-        type: string
-      message:
+      body:
         type: string
 schemes:
  - https
