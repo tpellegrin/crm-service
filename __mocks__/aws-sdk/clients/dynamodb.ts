@@ -4,6 +4,7 @@ const getFn = jest.fn().mockImplementation(() => ({ promise: awsSdkPromiseRespon
 const putFn = jest.fn().mockImplementation(() => ({ promise: awsSdkPromiseResponse }));
 const updFn = jest.fn().mockImplementation(() => ({ promise: awsSdkPromiseResponse }));
 const delFn = jest.fn().mockImplementation(() => ({ promise: awsSdkPromiseResponse }));
+const qryFn = jest.fn().mockImplementation(() => ({ promise: awsSdkPromiseResponse }));
 
 export class DocumentClient {
   get = getFn;
@@ -13,4 +14,6 @@ export class DocumentClient {
   update = updFn;
 
   delete = delFn;
+
+  query = qryFn;
 }

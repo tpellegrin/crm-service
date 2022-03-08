@@ -8,7 +8,7 @@ import event from './mock.json';
 const db = new DocumentClient();
 
 describe('upsert customer function', () => {
-  it(`calls dynamodb.put when it doesn't receives an id`, async () => {
+  it(`calls dynamodb.put when it doesn't receive an id`, async () => {
     const eventWithoutId = event;
     delete eventWithoutId.pathParameters.id;
 
@@ -23,8 +23,8 @@ describe('upsert customer function', () => {
     expect(db.put).not.toHaveBeenCalled();
   });
 
-  it(`calls dynamodb.update when it receives an id`, async () => {
-    await main(event, null, null);
+  it(`calls dynamodb.update when it receives an id and returns ok`, async () => {
+    const response = await main(event, null, null);
 
     expect(db.update).toHaveBeenCalledWith({
       Key: {
@@ -39,6 +39,10 @@ describe('upsert customer function', () => {
       },
       TableName: 'test'
     });
+    expect(response).toBe({
+      statusCode: 200,
+      body: JSON.stringify({ message: 'customer updated' })
+    });
   });
 
   it(`returns server error when DynamoDB breaks`, async () => {
@@ -48,7 +52,7 @@ describe('upsert customer function', () => {
 
     expect(response).toBe({
       statusCode: 500,
-      body: { message: 'something went wrong' }
+      body: JSON.stringify({ message: 'something went wrong' })
     });
   });
 });

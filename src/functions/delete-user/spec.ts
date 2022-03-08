@@ -8,12 +8,16 @@ import event from './mock.json';
 const db = new DocumentClient();
 
 describe('delete user function', () => {
-  it(`calls dynamodb.delete when it receives an id from path`, async () => {
-    await main(event, null, null);
+  it(`calls dynamodb.delete when it receives an id from path and returns ok`, async () => {
+    const response = await main(event, null, null);
 
     expect(db.delete).toHaveBeenCalledWith({
       Keys: { id: 'd290f1ee-6c54-4b01-90e6-d701748f0851', sort: 'user' },
       TableName: 'test'
+    });
+    expect(response).toBe({
+      statusCode: 200,
+      body: JSON.stringify({ message: 'user deleted' })
     });
   });
 
@@ -24,7 +28,7 @@ describe('delete user function', () => {
 
     expect(response).toBe({
       statusCode: 500,
-      body: { message: 'something went wrong' }
+      body: JSON.stringify({ message: 'something went wrong' })
     });
   });
 });

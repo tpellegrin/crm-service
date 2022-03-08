@@ -7,12 +7,12 @@ import event from './mock.json';
 
 const db = new DocumentClient();
 
-describe('upsert customer function', () => {
-  it(`calls dynamodb.put when it doesn't receives an id`, async () => {
+describe('upsert user function', () => {
+  it(`calls dynamodb.put when it doesn't receive an id`, async () => {
     const eventWithoutId = event;
     delete eventWithoutId.pathParameters.id;
 
-    await main(event, null, null);
+    await main(eventWithoutId, null, null);
 
     expect(db.put).toHaveBeenCalled();
   });
@@ -23,13 +23,13 @@ describe('upsert customer function', () => {
     expect(db.put).not.toHaveBeenCalled();
   });
 
-  it(`calls dynamodb.update when it receives an id`, async () => {
-    await main(event, null, null);
+  it(`calls dynamodb.update when it receives an id and returns ok`, async () => {
+    const response = await main(event, null, null);
 
     expect(db.update).toHaveBeenCalledWith({
       Key: {
         id: 'd290f1ee-6c54-4b01-90e6-d701748f0851',
-        sort: 'customer'
+        sort: 'user'
       },
       UpdateExpression:
         'set name = :name, surname = :surname, email = :email, admin = :admin',
@@ -41,6 +41,10 @@ describe('upsert customer function', () => {
       },
       TableName: 'test'
     });
+    expect(response).toBe({
+      statusCode: 200,
+      body: JSON.stringify({ message: 'user updated' })
+    });
   });
 
   it(`returns server error when DynamoDB breaks`, async () => {
@@ -50,7 +54,7 @@ describe('upsert customer function', () => {
 
     expect(response).toBe({
       statusCode: 500,
-      body: { message: 'something went wrong' }
+      body: JSON.stringify({ message: 'something went wrong' })
     });
   });
 });
