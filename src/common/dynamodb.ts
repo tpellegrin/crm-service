@@ -63,6 +63,17 @@ const dynamodb = {
       TableName
     };
     await db.delete(params).promise();
+  },
+  async scan(sort: SortKey): Promise<any> {
+    const params: DocumentClient.ScanInput = {
+      FilterExpression: 'sort = :sort',
+      ExpressionAttributeValues: {
+        ':sort': sort
+      },
+      TableName
+    };
+    const result = await db.scan(params).promise();
+    return result.Items;
   }
 };
 
