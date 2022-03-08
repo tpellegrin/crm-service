@@ -21,7 +21,7 @@ const dynamodb = {
     const result = await db.get(params).promise();
     return result.Item;
   },
-  async put(object: any, sort: SortKey, id?: string): Promise<void> {
+  async put(object: any, sort: SortKey, id?: string): Promise<{ id: string }> {
     const params: DocumentClient.PutItemInput = {
       Item: {
         id: id ?? nanoid(6),
@@ -31,6 +31,7 @@ const dynamodb = {
       TableName
     };
     await db.put(params).promise();
+    return { id: params.Item.id };
   },
   async update(object: any, sort: SortKey, id: string): Promise<void> {
     const params: DocumentClient.UpdateItemInput = {
