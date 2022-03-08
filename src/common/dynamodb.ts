@@ -3,7 +3,9 @@ import { nanoid } from 'nanoid';
 
 const db = new DocumentClient();
 
-const TableName = process.env.DYNAMODB_TABLE_NAME ?? 'test';
+const TableName = process.env.JEST_WORKER_ID
+  ? 'test'
+  : process.env.DYNAMODB_TABLE_NAME;
 
 type SortKey = 'user' | 'customer';
 
