@@ -1,28 +1,44 @@
 import type { AWS } from '@serverless/typescript';
 
+import {
+  deleteCustomer,
+  deleteUser,
+  readCustomer,
+  readUser,
+  upsertCustomer,
+  upsertUser
+} from './src/functions/index';
+
 const serverlessConfiguration: AWS = {
   service: 'crm-service',
   frameworkVersion: '2',
   custom: {
     webpack: {
       webpackConfig: './webpack.config.js',
-      includeModules: true,
-    },
+      includeModules: true
+    }
   },
-  plugins: ['serverless-webpack'],
+  plugins: ['serverless-webpack', 'serverless-offline'],
   provider: {
     name: 'aws',
     runtime: 'nodejs14.x',
     apiGateway: {
       minimumCompressionSize: 1024,
-      shouldStartNameWithService: true,
+      shouldStartNameWithService: true
     },
     environment: {
-      AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
+      AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1'
     },
-    lambdaHashingVersion: '20201221',
+    lambdaHashingVersion: '20201221'
   },
-  functions: {},
+  functions: {
+    deleteCustomer,
+    deleteUser,
+    readCustomer,
+    readUser,
+    upsertCustomer,
+    upsertUser
+  }
 };
 
 module.exports = serverlessConfiguration;
