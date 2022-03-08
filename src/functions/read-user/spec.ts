@@ -11,7 +11,7 @@ describe('read user function', () => {
   it(`calls dynamodb.get when it receives an id from path and returns an user`, async () => {
     const fake = {
       id: 'd290f1ee-6c54-4b01-90e6-d701748f0851',
-      name: 'Thiago',
+      first_name: 'Thiago',
       surname: 'Pellegrin',
       email: 'thiago@email'
     };
@@ -35,7 +35,7 @@ describe('read user function', () => {
     const fakes = [
       {
         id: 'd290f1ee-6c54-4b01-90e6-d701748f0851',
-        name: 'Thiago',
+        first_name: 'Thiago',
         surname: 'Pellegrin',
         email: 'thiago@email'
       }

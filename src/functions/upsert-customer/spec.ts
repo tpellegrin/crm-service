@@ -8,19 +8,19 @@ import event from './mock.json';
 const db = new DocumentClient();
 
 describe('upsert customer function', () => {
+  it(`doesn't call dynamodb.put when it receives an id`, async () => {
+    await main(event, null, null);
+
+    expect(db.put).not.toHaveBeenCalled();
+  });
+
   it(`calls dynamodb.put when it doesn't receive an id`, async () => {
-    const eventWithoutId = event;
+    const eventWithoutId = JSON.parse(JSON.stringify(event));
     delete eventWithoutId.pathParameters.id;
 
     await main(eventWithoutId, null, null);
 
     expect(db.put).toHaveBeenCalled();
-  });
-
-  it(`doesn't call dynamodb.put when it receives an id`, async () => {
-    await main(event, null, null);
-
-    expect(db.put).not.toHaveBeenCalled();
   });
 
   it(`calls dynamodb.update when it receives an id and returns ok`, async () => {
@@ -31,9 +31,9 @@ describe('upsert customer function', () => {
         id: 'd290f1ee-6c54-4b01-90e6-d701748f0851',
         sort: 'customer'
       },
-      UpdateExpression: 'set name = :name, surname = :surname, email = :email',
+      UpdateExpression: 'set first_name = :first_name, surname = :surname, email = :email',
       ExpressionAttributeValues: {
-        ':name': 'Thiago',
+        ':first_name': 'Thiago',
         ':surname': 'Pellegrin',
         ':email': 'thiago@email.com'
       },
