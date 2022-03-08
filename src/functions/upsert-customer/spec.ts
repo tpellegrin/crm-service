@@ -39,7 +39,7 @@ describe('upsert customer function', () => {
       },
       TableName: 'test'
     });
-    expect(response).toBe({
+    expect(response).toStrictEqual({
       statusCode: 200,
       body: JSON.stringify({ message: 'customer updated' })
     });
@@ -50,7 +50,7 @@ describe('upsert customer function', () => {
 
     const response = await main(event, null, null);
 
-    expect(response).toBe({
+    expect(response).toStrictEqual({
       statusCode: 500,
       body: JSON.stringify({ message: 'something went wrong' })
     });

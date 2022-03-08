@@ -12,10 +12,10 @@ describe('delete customer function', () => {
     const response = await main(event, null, null);
 
     expect(db.delete).toHaveBeenCalledWith({
-      Keys: { id: 'd290f1ee-6c54-4b01-90e6-d701748f0851', sort: 'customer' },
+      Key: { id: 'd290f1ee-6c54-4b01-90e6-d701748f0851', sort: 'customer' },
       TableName: 'test'
     });
-    expect(response).toBe({
+    expect(response).toStrictEqual({
       statusCode: 200,
       body: JSON.stringify({ message: 'customer deleted' })
     });
@@ -26,7 +26,7 @@ describe('delete customer function', () => {
 
     const response = await main(event, null, null);
 
-    expect(response).toBe({
+    expect(response).toStrictEqual({
       statusCode: 500,
       body: JSON.stringify({ message: 'something went wrong' })
     });

@@ -20,16 +20,16 @@ describe('read user function', () => {
     const response = await main(event, null, null);
 
     expect(db.get).toHaveBeenCalledWith({
-      Keys: { id: 'd290f1ee-6c54-4b01-90e6-d701748f0851', sort: 'user' },
+      Key: { id: 'd290f1ee-6c54-4b01-90e6-d701748f0851', sort: 'user' },
       TableName: 'test'
     });
-    expect(response).toEqual({
+    expect(response).toStrictEqual({
       statusCode: 200,
       body: JSON.stringify(fake)
     });
   });
 
-  it(`calls dynamodb.query when it doesn't receive an id from path and returns an array of users`, async () => {
+  it(`calls dynamodb.scan when it doesn't receive an id from path and returns an array of users`, async () => {
     const eventWithoutId = event;
     delete eventWithoutId.pathParameters.id;
     const fakes = [
@@ -46,8 +46,8 @@ describe('read user function', () => {
 
     const response = await main(eventWithoutId, null, null);
 
-    expect(db.query).toHaveBeenCalled();
-    expect(response).toEqual({
+    expect(db.scan).toHaveBeenCalled();
+    expect(response).toStrictEqual({
       statusCode: 200,
       body: JSON.stringify(fakes)
     });
@@ -58,7 +58,7 @@ describe('read user function', () => {
 
     const response = await main(event, null, null);
 
-    expect(response).toBe({
+    expect(response).toStrictEqual({
       statusCode: 500,
       body: JSON.stringify({ message: 'something went wrong' })
     });
