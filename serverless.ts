@@ -15,19 +15,20 @@ const serverlessConfiguration: AWS = {
   },
   frameworkVersion: '2',
   custom: {
-    stages: ['prd'],
+    defaultStage: 'prd',
     webpack: {
       webpackConfig: './webpack.config.js',
       includeModules: true
     },
     mainTableName: 'prototype-crm-db',
-    imagesBucketName: 'prototype-crm-images'
+    imagesBucketName: 'prototype-crm-images',
+    environment: '${file(env.yml):${self:provider.stage}}'
   },
   plugins: ['serverless-webpack', 'serverless-offline'],
   provider: {
     name: 'aws',
     runtime: 'nodejs14.x',
-    stage: "${opt:stage, 'prd'}",
+    stage: "${opt:stage, self:custom.defaultStage}",
     apiGateway: {
       minimumCompressionSize: 1024,
       shouldStartNameWithService: true
@@ -36,7 +37,9 @@ const serverlessConfiguration: AWS = {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       MAIN_TABLE_NAME: '${self:custom.mainTableName}',
       IMAGES_BUCKET_NAME: '${self:custom.imagesBucketName}',
-      COGNITO_USER_POOL: '${env:COGNITO_USER_POOL}'
+      AWS_ACCESS_KEY_ID: '${self:custom.environment.AWS_ACCESS_KEY_ID}',
+      AWS_SECRET_ACCESS_KEY: '${self:custom.environment.AWS_SECRET_ACCESS_KEY}',
+      COGNITO_USER_POOL: '${self:custom.environment.COGNITO_USER_POOL}'
     },
     lambdaHashingVersion: '20201221',
     iamRoleStatements: [
