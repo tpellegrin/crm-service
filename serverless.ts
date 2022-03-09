@@ -37,8 +37,6 @@ const serverlessConfiguration: AWS = {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       MAIN_TABLE_NAME: '${self:custom.mainTableName}',
       IMAGES_BUCKET_NAME: '${self:custom.imagesBucketName}',
-      AWS_ACCESS_KEY_ID: '${process.env.AWS_ACCESS_KEY_ID}',
-      AWS_SECRET_ACCESS_KEY: '${process.env.AWS_SECRET_ACCESS_KEY}',
       COGNITO_USER_POOL: '${process.env.COGNITO_USER_POOL}'
     },
     lambdaHashingVersion: '20201221',
