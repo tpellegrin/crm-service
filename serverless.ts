@@ -24,7 +24,7 @@ const serverlessConfiguration: AWS = {
     mainTableName: 'prototype-crm-db',
     imagesBucketName: 'prototype-crm-images'
   },
-  plugins: ['serverless-webpack', 'serverless-offline'],
+  plugins: ['serverless-webpack'],
   provider: {
     name: 'aws',
     runtime: 'nodejs14.x',
