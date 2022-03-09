@@ -23,5 +23,5 @@ export default {
         scopes: ['email', 'aws.cognito.signin.user.admin']
       }
     }
-  ],
+  ]
 };

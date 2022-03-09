@@ -13,28 +13,28 @@ export default {
               id: true
             }
           }
+        },
+        authorizer: {
+          type: 'COGNITO_USER_POOLS',
+          authorizerId: {
+            Ref: 'ApiGatewayAuthorizer'
+          },
+          scopes: ['email', 'aws.cognito.signin.user.admin']
         }
       },
-      authorizer: {
-        type: 'COGNITO_USER_POOLS',
-        authorizerId: {
-          Ref: 'ApiGatewayAuthorizer'
-        },
-        scopes: ['email', 'aws.cognito.signin.user.admin']
-      }
     },
     {
       http: {
         method: 'get',
-        path: '/user'
+        path: '/user',
+        authorizer: {
+          type: 'COGNITO_USER_POOLS',
+          authorizerId: {
+            Ref: 'ApiGatewayAuthorizer'
+          },
+          scopes: ['email', 'aws.cognito.signin.user.admin']
+        }
       },
-      authorizer: {
-        type: 'COGNITO_USER_POOLS',
-        authorizerId: {
-          Ref: 'ApiGatewayAuthorizer'
-        },
-        scopes: ['email', 'aws.cognito.signin.user.admin']
-      }
     }
   ]
 };
