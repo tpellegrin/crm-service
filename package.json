@@ -6,7 +6,9 @@
   "scripts": {
     "prettier": "prettier --config .prettierrc 'src/**/*.ts' --write",
     "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
-    "test": "jest"
+    "test": "jest",
+    "deploy": "serverless deploy",
+    "bootstrap": "rm -rf node_modules && npm install"
   },
   "engines": {
     "node": ">=14.15.0"
