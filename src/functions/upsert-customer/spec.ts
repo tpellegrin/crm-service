@@ -31,7 +31,8 @@ describe('upsert customer function', () => {
         id: 'd290f1ee-6c54-4b01-90e6-d701748f0851',
         sort: 'customer'
       },
-      UpdateExpression: 'set first_name = :first_name, surname = :surname, email = :email',
+      UpdateExpression:
+        'set first_name = :first_name, surname = :surname, email = :email',
       ExpressionAttributeValues: {
         ':first_name': 'Thiago',
         ':surname': 'Pellegrin',

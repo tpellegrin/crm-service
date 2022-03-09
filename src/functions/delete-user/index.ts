@@ -14,6 +14,13 @@ export default {
             }
           }
         }
+      },
+      authorizer: {
+        type: 'COGNITO_USER_POOLS',
+        authorizerId: {
+          Ref: 'ApiGatewayAuthorizer'
+        },
+        scopes: ['email', 'aws.cognito.signin.user.admin']
       }
     }
   ]

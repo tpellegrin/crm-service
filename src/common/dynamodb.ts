@@ -5,7 +5,7 @@ const db = new DocumentClient();
 
 const TableName = process.env.JEST_WORKER_ID
   ? 'test'
-  : process.env.DYNAMODB_TABLE_NAME;
+  : process.env.MAIN_TABLE_NAME;
 
 type SortKey = 'user' | 'customer';
 
