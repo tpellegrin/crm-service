@@ -13,7 +13,6 @@ const serverlessConfiguration: AWS = {
   service: {
     name: 'crm-service'
   },
-  useDotenv: true,
   frameworkVersion: '2',
   custom: {
     defaultStage: 'prd',
@@ -24,7 +23,7 @@ const serverlessConfiguration: AWS = {
     mainTableName: 'prototype-crm-db',
     imagesBucketName: 'prototype-crm-images'
   },
-  plugins: ['serverless-webpack'],
+  plugins: ['serverless-webpack', 'serverless-dotenv-plugin'],
   provider: {
     name: 'aws',
     runtime: 'nodejs14.x',
