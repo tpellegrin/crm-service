@@ -18,12 +18,21 @@ jobs:
         with:
           node-version: 14.x
 
+      - name: Install Serverless Framework
+        run: npm install -g serverless
+
+      - name: Serverless AWS authentication
+        run: sls config credentials --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Create env file
+        run: |
+            cat > env.yml << EOF
+            ${{ secrets.ENV }}
+            EOF
+
       - name: Install dependencies
         run: npm run bootstrap
 
       - name: Deploy
         run: npm run deploy
-        with:
-          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: ${{ secrets.AWS_REGION }}
+
