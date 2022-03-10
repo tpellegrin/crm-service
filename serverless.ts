@@ -20,8 +20,8 @@ const serverlessConfiguration: AWS = {
       webpackConfig: './webpack.config.js',
       includeModules: true
     },
-    mainTableName: 'crm-db',
-    imagesBucketName: 'crm-images'
+    mainTableName: 'crm-files-db',
+    imagesBucketName: 'crm-images-bucket'
   },
   plugins: ['serverless-webpack', 'serverless-dotenv-plugin', 'serverless-offline'],
   provider: {
