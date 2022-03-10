@@ -19,9 +19,9 @@ export default {
           authorizerId: {
             Ref: 'ApiGatewayAuthorizer'
           },
-          scopes: ['email', 'aws.cognito.signin.user.admin']
+          scopes: ['aws.cognito.signin.user.admin']
         }
-      },
+      }
     }
   ]
 };

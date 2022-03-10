@@ -2,6 +2,7 @@ import { handlerPath } from '@libs/handlerResolver';
 
 export default {
   handler: `${handlerPath(__dirname)}/handler.main`,
+  role: 'AdminRole',
   events: [
     {
       http: {
@@ -19,9 +20,9 @@ export default {
           authorizerId: {
             Ref: 'ApiGatewayAuthorizer'
           },
-          scopes: ['email', 'aws.cognito.signin.user.admin']
+          scopes: ['aws.cognito.signin.user.admin']
         }
-      },
+      }
     }
   ]
 };

@@ -20,14 +20,14 @@ const serverlessConfiguration: AWS = {
       webpackConfig: './webpack.config.js',
       includeModules: true
     },
-    mainTableName: 'prototype-crm-db',
-    imagesBucketName: 'prototype-crm-images'
+    mainTableName: 'crm-db',
+    imagesBucketName: 'crm-images'
   },
-  plugins: ['serverless-webpack', 'serverless-dotenv-plugin'],
+  plugins: ['serverless-webpack', 'serverless-dotenv-plugin', 'serverless-offline'],
   provider: {
     name: 'aws',
     runtime: 'nodejs14.x',
-    stage: "${opt:stage, self:custom.defaultStage}",
+    stage: '${opt:stage, self:custom.defaultStage}',
     apiGateway: {
       minimumCompressionSize: 1024,
       shouldStartNameWithService: true
@@ -35,8 +35,7 @@ const serverlessConfiguration: AWS = {
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       MAIN_TABLE_NAME: '${self:custom.mainTableName}',
-      IMAGES_BUCKET_NAME: '${self:custom.imagesBucketName}',
-      COGNITO_USER_POOL: process.env.COGNITO_USER_POOL
+      IMAGES_BUCKET_NAME: '${self:custom.imagesBucketName}'
     },
     lambdaHashingVersion: '20201221',
     iamRoleStatements: [
@@ -83,8 +82,8 @@ const serverlessConfiguration: AWS = {
         Properties: {
           UserPoolName: 'user-pool',
           UsernameAttributes: ['email'],
-          AutoVerifiedAttributes: ['email']
-        }
+          AutoVerifiedAttributes: ['email'],
+        },
       },
       CognitoUserPoolClient: {
         Type: 'AWS::Cognito::UserPoolClient',
@@ -94,6 +93,49 @@ const serverlessConfiguration: AWS = {
             Ref: 'CognitoUserPool'
           },
           ExplicitAuthFlows: ['ADMIN_NO_SRP_AUTH']
+        }
+      },
+      AdminGroup: {
+        Type: 'AWS::Cognito::UserPoolGroup',
+        Properties: {
+          GroupName: 'admin',
+          UserPoolId: {
+            Ref: 'CognitoUserPool'
+          },
+          RoleArn: { "Fn::GetAtt": ['AdminRole', 'Arn'] }
+        },
+      },
+      AdminRole: {
+        Type: 'AWS::IAM::Role',
+        Properties: {
+          RoleName: 'AdminRole',
+          AssumeRolePolicyDocument: {
+            Version: '2012-10-17',
+            Statement: [
+              {
+                Effect: 'Allow',
+                Principal: {
+                  Service: ['lambda.amazonaws.com']
+                },
+                Action: 'sts:AssumeRole'
+              }
+            ]
+          },
+          Policies: [
+            {
+              PolicyName: 'CognitoAuthorizedPolicy',
+              PolicyDocument: {
+                Version: '2012-10-17',
+                Statement: [
+                  {
+                    Effect: 'Allow',
+                    Action: ['execute-api:Invoke'],
+                    Resource: '*'
+                  }
+                ]
+              }
+            }
+          ]
         }
       },
       ApiGatewayRestApi: {
@@ -111,7 +153,7 @@ const serverlessConfiguration: AWS = {
           RestApiId: {
             Ref: 'ApiGatewayRestApi'
           },
-          ProviderARNs: ['${self:provider.environment.COGNITO_USER_POOL}']
+          ProviderARNs: [{ "Fn::GetAtt": ['CognitoUserPool', 'Arn'] }]
         }
       }
     }
