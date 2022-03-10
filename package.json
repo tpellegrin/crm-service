@@ -18,6 +18,7 @@
     "@middy/http-json-body-parser": "^1.5.2",
     "aws-sdk": "^2.1087.0",
     "dynamodb": "^1.3.0",
+    "file-type": "^17.1.1",
     "generate-password": "^1.7.0",
     "nanoid": "^3.3.1",
     "sls": "^0.1.0",
