@@ -31,7 +31,7 @@ const dynamodb = {
       TableName
     };
     await db.put(params).promise();
-    return { id: params.Item.id };
+    return params.Item.id;
   },
   async update(object: any, sort: SortKey, id: string): Promise<void> {
     const params: DocumentClient.UpdateItemInput = {
@@ -67,11 +67,13 @@ const dynamodb = {
     };
     await db.delete(params).promise();
   },
-  async scan(sort: SortKey): Promise<any> {
+  async scan(sort: SortKey, email?: string): Promise<any> {
     const params: DocumentClient.ScanInput = {
       FilterExpression: 'sort = :sort',
+      ...(email && { FilterExpression: 'sort = :sort and :email = email' }),
       ExpressionAttributeValues: {
-        ':sort': sort
+        ':sort': sort,
+        ...(email && { ':email': email })
       },
       TableName
     };
