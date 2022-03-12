@@ -7,7 +7,7 @@
       "@libs/*": ["src/libs/*"],
       "@common/*": ["src/common/*"],
       "@test/*": ["test/*"],
-      "@mocks/*": ["__mocks__/*"]
+      "@mocks/*": ["test/__mocks__/*"]
     }
   }
 }

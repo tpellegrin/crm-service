@@ -13,6 +13,6 @@ module.exports = {
     "@libs/(.*)": "src/libs/$1",
     "@common/(.*)": "src/common/$1",
     "@test/(.*)": "test/$1",
-    "@mocks/(.*)": "__mocks__/$1"
+    "@mocks/(.*)": "test/__mocks__/$1"
   },
 };

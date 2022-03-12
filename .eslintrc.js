@@ -4,12 +4,19 @@ module.exports = {
     es2021: true,
     jest: true
   },
-  extends: ['airbnb-base', 'prettier'],
+  extends: ['airbnb-base', 'airbnb-typescript/base', 'prettier'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',
-    sourceType: 'module'
+    sourceType: 'module',
+    project: './tsconfig.json'
   },
   plugins: ['@typescript-eslint', 'prettier'],
-  rules: {}
+  rules: {
+    'import/prefer-default-export': 'off',
+    'no-template-curly-in-string': 'off',
+    'no-param-reassign': [2, {
+      'props': false
+    }]
+  }
 };
