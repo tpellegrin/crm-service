@@ -53,6 +53,20 @@ export default {
                 Effect: 'Allow',
                 Action: ['execute-api:Invoke'],
                 Resource: '*'
+              },
+              {
+                Effect: 'Allow',
+                Action: ['dynamodb:*', 's3:*'],
+                Resource: '*'
+              },
+              {
+                Effect: 'Allow',
+                Action: [
+                    'cognito-identity:*',
+                    'cognito-idp:*',
+                    'cognito-sync:*'
+                ],
+                Resource: '*'
               }
             ]
           }
