@@ -6,3 +6,4 @@ export { default as updateCustomer } from './update/customer';
 export { default as updateUser } from './update/user';
 export { default as deleteCustomer } from './delete/customer';
 export { default as deleteUser } from './delete/user';
+export { default as adminAuth } from './admin-auth';

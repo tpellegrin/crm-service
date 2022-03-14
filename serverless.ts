@@ -8,7 +8,8 @@ import {
   updateCustomer,
   updateUser,
   deleteCustomer,
-  deleteUser
+  deleteUser,
+  adminAuth
 } from './src/functions';
 
 import { authorizer, storage } from './resources';
@@ -58,7 +59,8 @@ const serverlessConfiguration: AWS = {
     updateCustomer,
     updateUser,
     deleteCustomer,
-    deleteUser
+    deleteUser,
+    adminAuth
   },
   resources: {
     Resources: {

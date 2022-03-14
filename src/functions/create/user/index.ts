@@ -16,11 +16,9 @@ export default {
           }
         },
         authorizer: {
-          type: 'COGNITO_USER_POOLS',
-          authorizerId: {
-            Ref: 'ApiGatewayAuthorizer'
-          },
-          scopes: ['aws.cognito.signin.user.admin']
+          type: 'TOKEN',
+          name: 'adminAuth',
+          identitySource: 'method.request.header.Authorization'
         }
       }
     }
