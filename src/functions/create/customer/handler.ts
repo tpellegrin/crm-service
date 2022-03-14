@@ -27,6 +27,7 @@ const handler: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (
       const { data, mime } = await getImageMetadata(imageData);
       const { url } = await s3.save(data, mime);
       event.body.photoUrl = url;
+      delete event.body.photo;
     }
 
     // Try and create a new customer registry on DynamoDB from request body;
