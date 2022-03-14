@@ -1,14 +1,14 @@
 import { CognitoIdentityServiceProvider } from 'aws-sdk';
 import generator from 'generate-password';
 
-const { COGNITO_POOL_CLIENT_ID, USER_POOL_ID } = process.env;
+const { POOL_CLIENT_ID, USER_POOL_ID } = process.env;
 
 const service = new CognitoIdentityServiceProvider();
 
 const cognito = {
   async signUp(email: string): Promise<{ password: string }> {
     const params: CognitoIdentityServiceProvider.Types.SignUpRequest = {
-      ClientId: COGNITO_POOL_CLIENT_ID,
+      ClientId: POOL_CLIENT_ID,
       Username: email,
       Password: generator.generate({
         length: 12,
