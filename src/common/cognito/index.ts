@@ -56,6 +56,14 @@ const cognito = {
         Username: email
       })
       .promise();
+  },
+  async removeUser(email: string): Promise<void> {
+    await service
+      .adminDeleteUser({
+        UserPoolId: USER_POOL_ID,
+        Username: email
+      })
+      .promise();
   }
 };
 

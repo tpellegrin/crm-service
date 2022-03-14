@@ -5,15 +5,17 @@ import { APIGatewayProxyEvent } from 'aws-lambda';
 import { formatJSONResponse } from '@libs/apiGateway';
 import middyfy from '@libs/lambda';
 import dynamodb from '@common/dynamodb';
+import cognito from '@common/cognito';
 
 const handler = async (event: APIGatewayProxyEvent) => {
   try {
     const { id } = event.pathParameters;
     const user = await dynamodb.get('user', id);
 
-    // If an user exists, try and delete it.
+    // If an user exists, try and delete it from DynamoDB and Cognito.
     if (user) {
       await dynamodb.delete('user', id);
+      await cognito.removeUser(user.email);
       return formatJSONResponse({ message: 'user deleted' });
     }
 
